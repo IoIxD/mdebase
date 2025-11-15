@@ -2,6 +2,9 @@ project(
 	mdm
 )
 
+find_package(PkgConfig)
+pkg_check_modules(X11 REQUIRED x11)
+
 file(
 	GLOB
 	mdm_SRC
@@ -13,10 +16,22 @@ add_executable(
 	${mdm_SRC}
 )
 
+target_include_directories(
+	mdm
+	PRIVATE
+	${X11_INCLUDE_DIRS}
+)
+
+target_link_directories(
+	mdm
+	PRIVATE
+	${X11_LIBRARY_DIRS}
+)
+
 target_link_libraries(
 	mdm
 	PRIVATE
-	MDELib
+	${X11_LIBRARIES} MDELib Mw
 )
 
 include(GNUInstallDirs)
