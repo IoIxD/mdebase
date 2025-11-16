@@ -14,10 +14,17 @@ add_executable(
 )
 
 target_link_libraries(
-	mdm
+	mpanel
 	PRIVATE
 	MDELib
 )
+if(${CMAKE_SYSTEM_NAME} STREQUAL Linux)
+	target_link_libraries(
+		mpanel
+		PRIVATE
+		dl
+	)
+endif()
 
 include(GNUInstallDirs)
 install(

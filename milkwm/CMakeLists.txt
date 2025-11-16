@@ -14,7 +14,7 @@ add_executable(
 )
 
 target_link_libraries(
-	mdm
+	milkwm
 	PRIVATE
 	MDELib
 )
