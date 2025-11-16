@@ -2,7 +2,7 @@
 
 #include <Mw/Milsko.h>
 
-void make_login_window(void){
+void login_window(void){
 	MwWidget window, pic, userlabel, usercombo, passlabel, passentry, mainsep, sesslabel, sesscombo, fieldsep, shutdown, reboot, ok;
 
 	MwLibraryInit();

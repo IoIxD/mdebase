@@ -34,5 +34,5 @@ int main(int argc, char** argv){
 
 	init_x();
 
-	make_login_window();
+	login_window();
 }
