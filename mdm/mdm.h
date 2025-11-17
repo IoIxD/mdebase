@@ -28,14 +28,14 @@ extern uid_t uid;
 extern char* run;
 
 /* xserver.c */
-extern pthread_t xthread;
+extern pthread_t       xthread;
 extern pthread_mutex_t xmutex;
-extern Display* xdisplay;
+extern Display*	       xdisplay;
 
-int launch_x(void);
-int x_width(void);
-int x_height(void);
-int init_x(void);
+int  launch_x(void);
+int  x_width(void);
+int  x_height(void);
+int  init_x(void);
 void loop_x(void);
 void kill_x(void);
 

@@ -4,7 +4,7 @@
 
 char* config_picture = NULL;
 
-static int dumper(void* user, const char* section, const char* name, const char* value){
+static int dumper(void* user, const char* section, const char* name, const char* value) {
 	(void)user;
 
 	if(strcmp(section, "MDM Config") != 0) return 1;
@@ -14,6 +14,6 @@ static int dumper(void* user, const char* section, const char* name, const char*
 	return 1;
 }
 
-void parse_config(void){
+void parse_config(void) {
 	ini_parse(CONFDIR "/mdm/mdmrc", dumper, NULL);
 }

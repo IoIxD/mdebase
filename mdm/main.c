@@ -6,22 +6,22 @@ gid_t gid;
 uid_t uid;
 char* run;
 
-int main(int argc, char** argv){
-	int i, st;
+int main(int argc, char** argv) {
+	int   i, st;
 	char* backup = NULL;
-	
-	for(i = 1; i < argc; i++){
-		if(argv[i][0] == '-'){
-			if(strcmp(argv[i], "-X") == 0 || strcmp(argv[i], "--no-launch-x") == 0){
+
+	for(i = 1; i < argc; i++) {
+		if(argv[i][0] == '-') {
+			if(strcmp(argv[i], "-X") == 0 || strcmp(argv[i], "--no-launch-x") == 0) {
 				is_launch_x = 0;
-			}else{
+			} else {
 				fprintf(stderr, "%s: bad option: %s\n", argv[0], argv[i]);
 				return 1;
 			}
 		}
 	}
 
-	if(getuid() != 0){
+	if(getuid() != 0) {
 		fprintf(stderr, "MDM has to be ran as root\n");
 		return 1;
 	}
@@ -32,7 +32,7 @@ int main(int argc, char** argv){
 	parse_config();
 
 	if(getenv("DISPLAY") != NULL) backup = MDEStringDuplicate(getenv("DISPLAY"));
-	do{
+	do {
 		pid_t pid;
 
 		setenv("DISPLAY", backup == NULL ? "" : backup, 1);
@@ -44,7 +44,7 @@ int main(int argc, char** argv){
 
 		if(run == NULL) continue;
 
-		if((pid = fork()) == 0){
+		if((pid = fork()) == 0) {
 			struct passwd* pwd = getpwuid(uid);
 
 			setgid(gid);
@@ -54,14 +54,14 @@ int main(int argc, char** argv){
 			setenv("SHELL", pwd->pw_shell, 1);
 			setenv("HOME", pwd->pw_dir, 1);
 			_exit(system(run));
-		}else{
+		} else {
 			waitpid(pid, NULL, 0);
 		}
 
-		if(is_launch_x){
+		if(is_launch_x) {
 			kill_x();
 		}
-	}while(is_launch_x);
+	} while(is_launch_x);
 
 	if(backup != NULL) free(backup);
 }
