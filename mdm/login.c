@@ -24,8 +24,6 @@ static int dumper(void* user, const char* section, const char* name, const char*
 	if(strcmp(section, "Desktop Entry") != 0) return 1;
 
 	if(strcmp(name, "Name") == 0) {
-		MwComboBoxAdd(user, -1, value);
-
 		name_line = MDEStringDuplicate(value);
 	} else if(strcmp(name, "Exec") == 0) {
 		exec_line = MDEStringDuplicate(value);
@@ -34,17 +32,33 @@ static int dumper(void* user, const char* section, const char* name, const char*
 	return 1;
 }
 
-static void add_session(const char* path, int dir, void* user) {
+static void add_session(const char* path, int dir, int symlink, void* user) {
+	int m = 1;
+
 	name_line = NULL;
 	exec_line = NULL;
+	
+	if(dir || symlink) return;
 
 	ini_parse(path, dumper, user);
 
 	if(name_line != NULL && exec_line != NULL) {
-		shput(sessions, name_line, exec_line);
+		int i;
+		for(i = 0; i < shlen(sessions); i++){
+			if(strcmp(sessions[i].key, name_line) == 0) break;
+		}
+	
+		if(i == shlen(sessions)){	
+			MwComboBoxAdd(user, -1, name_line);
+
+			shput(sessions, name_line, exec_line);
+
+			m = 0;
+		}
 	}
 
 	if(name_line != NULL) free(name_line);
+	if(m && exec_line != NULL) free(exec_line);
 }
 
 static int conversation(int num_msg, const struct pam_message** msg, struct pam_response** resp, void* appdata) {
