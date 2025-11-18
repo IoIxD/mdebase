@@ -17,7 +17,7 @@ configure_file(mdmrc.in mdmrc)
 install(
 	FILES pam
 	RENAME mdm
-	DESTINATION /etc/pam.d
+	DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/examples/pam.d
 )
 install(
 	FILES ${CMAKE_CURRENT_BINARY_DIR}/mdmrc
