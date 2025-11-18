@@ -1,37 +1,17 @@
-project(
-	mdm
-)
+setup_project(mdm ${CMAKE_INSTALL_SBINDIR})
 
-find_package(PkgConfig)
-
-file(
-	GLOB
-	mdm_SRC
-	*.c
-)
-
-add_executable(
-	mdm
-	${mdm_SRC}
-)
-
-PKGCONF_ADD(mdm x11)
-PKGCONF_ADD(mdm inih)
+pkg_config_add(mdm x11)
+pkg_config_add(mdm inih)
 
 target_link_libraries(
 	mdm
 	PRIVATE
-	pam pthread MDELib Mw
+	pam pthread
 )
-
 
 include(GNUInstallDirs)
 configure_file(mdmrc.in mdmrc)
 
-install(
-	TARGETS mdm
-	RUNTIME DESTINATION ${CMAKE_INSTALL_SBINDIR}
-)
 install(
 	FILES pam
 	RENAME mdm
